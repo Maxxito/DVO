@@ -21,5 +21,8 @@ def start(message):
 def callback_message(callback):
     if callback.data == 'Register':
         bot.send_message(callback.message.chat.id,'Пожалуйста заполните следующую форму')
+        form = open("Forms/1. Форма заявки II Дальневосточной хоровой олимпиады.pdf","rb")
+        bot.send_document(callback.message.chat.id, form)
+        form.close()
 
 bot.polling(none_stop=True)
