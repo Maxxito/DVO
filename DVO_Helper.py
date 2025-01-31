@@ -12,11 +12,14 @@ bot = telebot.TeleBot(TOKEN)
 @bot.message_handler(commands=['start'])
 def start(message):
     markup = types.InlineKeyboardMarkup()
-    markup.add(types.InlineKeyboardButton("Go to website",url="https://www.google.ru/?hl=ru"))
-    bot.send_message(message.chat.id,f'Hi {message.from_user.first_name}',reply_markup=markup)
+    btn1 = types.InlineKeyboardButton("Регистрация",callback_data="Register")
+    btn2 = types.InlineKeyboardButton("Участник",callback_data="Participant")
+    markup.row(btn1,btn2)
+    bot.send_message(message.chat.id,f'Здравствуйте {message.from_user.first_name}, вы будете регистрироваться или вы лишь участник?',reply_markup=markup)
 
-@bot.message_handler(commands=['help'])
-def main(message):
-    bot.send_message(message.chat.id,'Help')
+@bot.callback_query_handler(func=lambda callback:True)
+def callback_message(callback):
+    if callback.data == 'Register':
+        bot.send_message(callback.message.chat.id,'Пожалуйста заполните следующую форму')
 
 bot.polling(none_stop=True)
