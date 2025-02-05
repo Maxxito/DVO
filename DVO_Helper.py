@@ -1,6 +1,5 @@
 from typing import Final
 import telebot
-import pandas as pd
 from telebot import types
 
 TOKEN: Final = "7777815688:AAEFASmhB5ltfQv3muNUl9j1P29fbH3e0FQ"
@@ -10,7 +9,7 @@ bot = telebot.TeleBot(TOKEN)
 
 @bot.message_handler(commands=['start'])
 def start(message):
-    markup = types.ReplyKeyboardMarkup()
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
     #btn1 = types.KeyboardButton("Заявка")
     btn2 = types.KeyboardButton("Документы")
     btn3 = types.KeyboardButton("Конкурсные номинации")
@@ -19,7 +18,17 @@ def start(message):
     #markup.row(btn1)
     markup.row(btn2,btn3)
     markup.row(btn4,btn5)
-    bot.send_message(message.chat.id,f'Здравствуйте.',reply_markup=markup)
+    greet = open('greetings.txt','rt')
+    bot.send_message(message.chat.id,greet.read(),reply_markup=markup)
+    greet.close()
+
+@bot.callback_query_handler(func=lambda callback: True)
+def callback_message(callback):
+    if callback.data=='more':
+        req = open('requirments.txt','rt')
+        bot.send_message(callback.message.chat.id, req.read())
+        req.close()
+
 
 @bot.message_handler()
 def info(message):
@@ -35,19 +44,23 @@ def info(message):
         reg.close()
         pos.close()
         tim.close()
-    elif message.text == 'Конкурсные категории':
-        markup = types.ReplyKeyboardMarkup()
-        btn1 = types.KeyboardButton("Требования к программам")
-        btn2 = types.KeyboardButton("Вернуться в меню")
-        markup.row(btn1,btn2)
+    elif message.text == 'Конкурсные номинации':
+        markup = types.InlineKeyboardMarkup()
+        btn1 = types.InlineKeyboardButton("Нажимай сюда!",callback_data='more')
+        markup.add(btn1)
         fest_text = open('fest_text.txt','rt')
         bot.send_message(message.chat.id, fest_text.read())
         fest_text.close()
+        bot.send_message(message.chat.id,'Хочешь узнать подробнее о конкурсных требованиях?',reply_markup=markup)
     elif message.text == 'Транспорт и точки питания':
-        info1 = open('ТРАНСПОРТ, ПИТАНИЕ, ДОСУГ.pdf','rt')
-        bot.send_document(message.chat.id, fest_text)
+        info1 = open('ТРАНСПОРТ, ПИТАНИЕ, ДОСУГ.pdf','rb')
+        bot.send_document(message.chat.id, info1)
         info1.close()
     elif message.text == 'Часто задаваемые вопросы':
         bot.send_message(message.chat.id, 'Вопросики')
-
+    elif message.text == 'Требования к программам':
+        req = open('requirments.txt','rt')
+        bot.send_message(message.chat.id, req.read())
+        req.close()
+1
 bot.polling(none_stop=True)
