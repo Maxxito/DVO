@@ -57,6 +57,9 @@ def info(message):
         bot.send_document(message.chat.id, info1)
         info1.close()
     elif message.text == 'Часто задаваемые вопросы':
+        q = open('questions.txt','rt')
+        bot.send_message(message.chat.id, q.read())
+        q.close()
         bot.send_message(message.chat.id, 'Вопросики')
     elif message.text == 'Требования к программам':
         req = open('requirments.txt','rt')
