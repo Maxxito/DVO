@@ -60,7 +60,6 @@ def info(message):
         q = open('questions.txt','rt')
         bot.send_message(message.chat.id, q.read())
         q.close()
-        bot.send_message(message.chat.id, 'Вопросики')
     elif message.text == 'Требования к программам':
         req = open('requirments.txt','rt')
         bot.send_message(message.chat.id, req.read())
