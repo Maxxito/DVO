@@ -12,21 +12,21 @@ def start(message):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
     #btn1 = types.KeyboardButton("Заявка")
     btn2 = types.KeyboardButton("Документы")
-    btn3 = types.KeyboardButton("Конкурсные номинации")
+    btn3 = types.KeyboardButton("Конкурсные категории")
     btn4 = types.KeyboardButton("Транспорт и точки питания")
     btn5 = types.KeyboardButton("Часто задаваемые вопросы")
     #markup.row(btn1)
     markup.row(btn2,btn3)
     markup.row(btn4,btn5)
     greet = open('greetings.txt','rt')
-    bot.send_message(message.chat.id,greet.read(),reply_markup=markup)
+    bot.send_message(message.chat.id,greet.read(),reply_markup=markup,parse_mode='HTML')
     greet.close()
 
 @bot.callback_query_handler(func=lambda callback: True)
 def callback_message(callback):
     if callback.data=='more':
         req = open('requirments.txt','rt')
-        bot.send_message(callback.message.chat.id, req.read())
+        bot.send_message(callback.message.chat.id, req.read(),parse_mode='HTML')
         req.close()
 
 
@@ -44,25 +44,26 @@ def info(message):
         reg.close()
         pos.close()
         tim.close()
-    elif message.text == 'Конкурсные номинации':
+    elif message.text == 'Конкурсные категории':
         markup = types.InlineKeyboardMarkup()
         btn1 = types.InlineKeyboardButton("Нажимай сюда!",callback_data='more')
         markup.add(btn1)
         fest_text = open('fest_text.txt','rt')
-        bot.send_message(message.chat.id, fest_text.read())
+        bot.send_message(message.chat.id, fest_text.read(),parse_mode='HTML')
         fest_text.close()
         bot.send_message(message.chat.id,'Хочешь узнать подробнее о конкурсных требованиях?',reply_markup=markup)
     elif message.text == 'Транспорт и точки питания':
         info1 = open('ТРАНСПОРТ, ПИТАНИЕ, ДОСУГ.pdf','rb')
+        bot.send_message(message.chat.id,'🐚Скорее открывай файл, который расскажет тебе о точках питания, транспорте и местах для досуга во Владивостоке!')
         bot.send_document(message.chat.id, info1)
         info1.close()
     elif message.text == 'Часто задаваемые вопросы':
         q = open('questions.txt','rt')
-        bot.send_message(message.chat.id, q.read())
+        bot.send_message(message.chat.id, q.read(),parse_mode='HTML')
         q.close()
     elif message.text == 'Требования к программам':
         req = open('requirments.txt','rt')
-        bot.send_message(message.chat.id, req.read())
+        bot.send_message(message.chat.id, req.read(),parse_mode='HTML')
         req.close()
 1
 bot.polling(none_stop=True)
