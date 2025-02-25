@@ -1,0 +1,22 @@
+.card {
+  display: grid;
+  grid-template-rows: 1fr 24px;
+  width: 277px;
+  height: 264px;
+
+}
+
+.place {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 24px;
+  color: #303030;
+}
+
+.img {
+  max-width: 100%;
+  width: 277px;
+  height: 220px;
+  border-radius: 8px;
+}
