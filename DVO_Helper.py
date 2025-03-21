@@ -65,10 +65,10 @@ def info(message):
         req = open('requirments.txt','rt')
         bot.send_message(message.chat.id, req.read(),parse_mode='HTML')
         req.close()
-    elif message.text == 'Подать заявку':
+    elif message.text == 'Подать Заявку':
         markup = types.InlineKeyboardMarkup()
-        btn1 = types.InlineKeyboardButton("Нажимай сюда!",callback_data='more')
+        btn1 = types.InlineKeyboardButton("Нажимай сюда!", url="https://choirolympicapplications.tilda.ws/dvo")
         markup.add(btn1)
-        bot.send_message(message.chat.id, "Нажми чтобы подать заявку",reply_markup=markup)
+        bot.send_message(message.chat.id, "Скорей нажимай и заполняй заявку!",reply_markup=markup)
 1
 bot.polling(none_stop=True)
