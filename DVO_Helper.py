@@ -35,8 +35,8 @@ def info(message):
     if message.text == 'Заявка':
         bot.send_message(message.chat.id, 'К сожалению на данный момент регистрация недоступна')
     elif message.text == 'Документы':
-        pos = open('ПОЛОЖЕНИЕ 2025.pdf','rb')
-        reg = open('РЕГЛАМЕНТ 2025.pdf','rb')
+        pos = open('ПОЛОЖЕНИЕ III, 2025.pdf','rb')
+        reg = open('РЕГЛАМЕНТ III, 2025.pdf','rb')
         tim = open('ОБЩЕЕ РАСПИСАНИЕ 2025.pdf','rb')
         bot.send_document(message.chat.id, pos)
         bot.send_document(message.chat.id, reg)
